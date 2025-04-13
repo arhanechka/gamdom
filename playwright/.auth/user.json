@@ -1,0 +1,53 @@
+{
+  "cookies": [
+    {
+      "name": "secret_session_do_not_share",
+      "value": "you_are_being_scammed_NEVER_send_this_to_anyone!_And_don't_expect_us_to_refund_you_either_if_you_get_scammed_by_sending_someone_the_value_of_this_cookie._None_of_our_support_will_ever_ask_you_for_it%2C_there_is_no_bullshit_secret_jackpot_you_get_by_ignoring_this%2C_you'll_just_get_your_money_taken._Whoever_you_have_been_interacting_with_is_a_scammer%2C_please_report_them_to_us.____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________.fdfb153f-2d1c-4427-8558-49544b36731d",
+      "domain": "qa-test-playground.teamgamdom.com",
+      "path": "/",
+      "expires": 1779065477.773093,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "gdUserHmac",
+      "value": "OTkuMjQ2LjE0MC4xOTEsMTc0NDUwNTQ3NzgyNywxNywxNzQzNTY3OTA5MzY4LDE1MDAw.LYVHK5og7%2Bl%2BpEJje9hIVifrkMwDpstVyrVF9H3tWvs%3D",
+      "domain": "qa-test-playground.teamgamdom.com",
+      "path": "/",
+      "expires": 1779065477.773161,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "io",
+      "value": "-YtINGQrTHnXIWbfAAKA",
+      "domain": "qa-test-playground.teamgamdom.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://qa-test-playground.teamgamdom.com",
+      "localStorage": [
+        {
+          "name": "isLoggedIn",
+          "value": "true"
+        },
+        {
+          "name": "LOGIN_SUCCESS",
+          "value": "true"
+        },
+        {
+          "name": "chat:isChatOpen",
+          "value": "false"
+        }
+      ]
+    }
+  ]
+}
