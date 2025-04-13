@@ -36,7 +36,7 @@ async function globalSetup(config: FullConfig) {
   }
 
   const browser = await chromium.launch({
-    headless: process.env.CI ? true : false,
+    headless: process.env.CI ? true : process.env.IS_HEADLESS === 'true',
     timeout: 60000,
   });
 
