@@ -37,9 +37,15 @@ jobs:
             -v ${{ github.workspace }}/docker-reports:/app/playwright-report \
             pw-tests
 
+      - name: Zip Playwright HTML report
+        if: always()
+        run: |
+          cd docker-reports
+          zip -r ../playwright-report.zip .
+
       - name: Upload Playwright HTML report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: playwright-report
-          path: docker-reports
+          path: playwright-report.zip
