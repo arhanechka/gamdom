@@ -12,7 +12,6 @@ export default defineConfig({
     baseURL: process.env.BASE_URL,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
-    headless: false,
     launchOptions: {
       slowMo: 500,
     },

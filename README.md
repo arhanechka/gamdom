@@ -1,33 +1,65 @@
-## Global Setup
+# Playwright E2E Testing Framework
 
-### Overview
+This project is an **End-to-End (E2E)** testing framework built using **TypeScript** and **Playwright**.
 
-The **global setup** is executed only once before all tests to avoid redundant logins and speed up test execution.
+## Project Overview
 
-- **Login Process**:
+### Test Scenarios:
 
-  - The global setup verifies if the user is already logged in by checking the user balance on the page.
-  - If the user is logged in, the setup is skipped, and the current session is used for the tests.
-  - If the user is not logged in, the setup will perform the login using credentials stored in the environment variables `TEST_USERNAME` and `TEST_PASSWORD` (or fallback to `default_user` and `default_pass`).
+1. **Authentication Test (Login)**: Verifies that the login functionality works correctly. It checks if valid credentials redirect the user to the dashboard.
+2. **Crash Game Test**: Simulates a bet on the Crash game, waits for the game result, and validates the expected outcome.
+3. **Wallet Functionality Test**: Verifies a specific function of the wallet to ensure it behaves as expected.
 
-- **Login Failure Handling**:
+## Features
 
-  - If the login fails during the global setup, it will retry logging in.
-  - If login still fails, a screenshot is taken (`global-setup-error.png`), and test execution is stopped.
+- Playwright E2E tests in TypeScript.
+- Page Object Pattern for organizing page interactions.
+- Automated code linting and formatting with ESLint and Prettier.
+- Husky pre-commit hooks for automatic linting and formatting checks.
 
-- **Skipping Global Setup for `@auth` Tests**:
-  - For tests tagged with `@auth`, the global setup is skipped, and the login will follow the default procedure within the test itself.
+## Installation
 
-### How It Works:
+Clone this repository and install the dependencies:
 
-1. **Executed Once**: The global setup is only executed once before the entire test suite to avoid multiple logins.
-2. **Login Verification**: It checks whether the user is already logged in:
-   - If the user is logged in, the setup is skipped.
-   - If the user is not logged in, the setup logs the user in and stores the session for subsequent tests.
-3. **Error Handling**:
-   - If login fails, the setup will attempt to log in again.
-   - If login fails a second time, the setup captures a screenshot (`global-setup-error.png`) and stops the execution.
+```bash
+git clone <repository-url>
+cd <project-directory>
+npm install
+```
 
-### When is Global Setup Skipped?
+To run the tests locally, you need to have **Node.js** and **npm** installed. 2. **Setup environment variables**:
+Add test credentials and test url to .env file on the route directory of the project
 
-The global setup will be skipped for tests marked with the `@auth` tag. In these cases, the login is performed by the test itself, as per the normal test flow.
+3. **Run Tests Locally**:
+   Once dependencies are installed, you can run the tests locally using the following command:
+   ```bash
+   npm run test
+   ```
+   This will execute the tests in a **real browser**.
+
+---
+
+## Running Tests in Docker (Headless)
+
+To run the tests in a Docker container, use the following scripts.
+
+### Steps to Build and Run Tests in Docker:
+
+1. **Build Docker Image and Run Tests**:
+
+   ```bash
+   npm run docker:test
+   ```
+
+   This will build the Docker image and run the tests inside a **headless browser** within the container. After tests run it will copy playwright reports from docker container to the directory /docker-reports in the rought of the project
+
+2. **Force Rebuild Docker Image**:
+   If you want to force a fresh build without cache, use:
+   ```bash
+   npm run docker:test:clean
+   ```
+
+### Docker Command Explanation:
+
+- `docker run --rm`: Runs the container and removes it after the tests complete.
+- `-e CI=true`: Sets the environment variable `CI=true` inside the container, indicating the environment is CI-like (automatically runs tests in headless mode).
