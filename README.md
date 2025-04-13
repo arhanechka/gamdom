@@ -63,3 +63,22 @@ To run the tests in a Docker container, use the following scripts.
 
 - `docker run --rm`: Runs the container and removes it after the tests complete.
 - `-e CI=true`: Sets the environment variable `CI=true` inside the container, indicating the environment is CI-like (automatically runs tests in headless mode).
+
+# CI for Playwright Tests
+
+## Overview
+
+Automated test execution can be done using **GitHub Actions**. The tests are run in a Docker container, ensuring isolation and consistency of the environment for each run.
+
+### Process
+
+1. **Running Tests:**
+
+   - Each time code is pushed to the `main` or `develop` branches, or a pull request is created, the CI workflow triggers and runs the tests using GitHub Actions.
+   - Tests are executed inside a Docker container with the image `mcr.microsoft.com/playwright:v1.42.1-jammy`.
+   - Secrets such as usernames and passwords are passed through environment variables for security.
+
+2. **Reports:**
+   - The test results are stored in the `docker-reports` folder.
+   - The report is uploaded as an artifact, allowing you to view the results after the test run.
+   - The reports are generated in HTML format using the default Playwright reporter and saved in the `playwright-report` folder.
