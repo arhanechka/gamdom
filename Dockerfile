@@ -9,4 +9,4 @@ COPY . .
 
 RUN npx playwright install --with-deps
 
-CMD ["npx", "playwright", "test"]
+CMD ["npx", "ts-node", "-r", "tsconfig-paths/register", "node_modules/.bin/playwright", "test"]
