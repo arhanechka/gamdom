@@ -37,7 +37,6 @@ jobs:
             -e TEST_USERNAME=$TEST_USERNAME \
             -e TEST_PASSWORD=$TEST_PASSWORD \
             -e JIRA_PROJECT_KEY=$JIRA_PROJECT_KEY \
-            -e JIRA_TOKEN=$(echo -n $JIRA_TOKEN | base64) \
             -v ${{ github.workspace }}/docker-reports:/app/playwright-report \
             pw-tests:latest
 
