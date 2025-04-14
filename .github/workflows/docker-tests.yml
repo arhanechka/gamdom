@@ -44,7 +44,7 @@ jobs:
       - name: Zip Playwright HTML report
         if: always()
         run: |
-          cd docker-reports
+          cd reports/docker-reports
           zip -r ../playwright-report.zip .
 
       - name: Upload Playwright HTML report
