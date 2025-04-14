@@ -19,13 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Print environment variables
-        run: |
-          echo "TEST_USERNAME=${{ secrets.TEST_USERNAME }}"
-          echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}"
-          echo "JIRA_PROJECT_KEY=${{ secrets.JIRA_PROJECT_KEY }}"
-          echo "JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}"
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -44,7 +37,7 @@ jobs:
             -e TEST_USERNAME=$TEST_USERNAME \
             -e TEST_PASSWORD=$TEST_PASSWORD \
             -e JIRA_PROJECT_KEY=$JIRA_PROJECT_KEY \
-            -e JIRA_TOKEN=$JIRA_TOKEN \
+            -e JIRA_TOKEN=$(echo -n $JIRA_TOKEN | base64) \
             -v ${{ github.workspace }}/docker-reports:/app/playwright-report \
             pw-tests:latest
 

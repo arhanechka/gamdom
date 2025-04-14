@@ -47,15 +47,19 @@ cd <project-directory>
 npm install
 ```
 
-To run the tests locally, you need to have **Node.js** and **npm** installed. 2. **Setup environment variables**:
-Add test credentials and test url to .env file on the route directory of the project
-You should add the next variables:
-TEST_USERNAME=
-TEST_PASSWORD=
-BASE_URL=
-JIRA_URL=
-JIRA_PROJECT_KEY=
-JIRA_TOKEN=
+To run the tests locally, you need to have **Node.js** and **npm** installed.
+
+### 2. Setup Environment Variables:
+
+Add test credentials and test URL to the `.env` file located in the root directory of the project. You should add the following variables:
+
+- `TEST_USERNAME=`
+- `TEST_PASSWORD=`
+- `BASE_URL=`
+- `JIRA_URL=`
+- `JIRA_PROJECT_KEY=`
+- `JIRA_TOKEN=`
+
 For CI run these variables are saved in github secrets
 
 3. **Run Tests Locally**:
