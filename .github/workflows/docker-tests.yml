@@ -19,6 +19,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Print environment variables
+        run: |
+          echo "TEST_USERNAME=${{ secrets.TEST_USERNAME }}"
+          echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}"
+          echo "JIRA_PROJECT_KEY=${{ secrets.JIRA_PROJECT_KEY }}"
+          echo "JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}"
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -39,7 +46,7 @@ jobs:
             -e JIRA_PROJECT_KEY=$JIRA_PROJECT_KEY \
             -e JIRA_TOKEN=$JIRA_TOKEN \
             -v ${{ github.workspace }}/docker-reports:/app/playwright-report \
-            pw-tests
+            pw-tests:latest
 
       - name: Zip Playwright HTML report
         if: always()
