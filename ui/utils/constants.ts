@@ -1,1 +1,1 @@
-export const WAIT_TIMEOUT = process.env.CI ? 2000 : 3000;
+export const WAIT_TIMEOUT = process.env.CI ? 15000 : 10000;

@@ -111,9 +111,12 @@ Automated test execution can be done using **GitHub Actions**. The tests are run
    - Secrets such as usernames, passwords, tokens are passed through environment variables for security.
 
 2. **Reports:**
-   - The test results are stored in the `docker-reports` folder.
+   - The test results are stored depending on the way of run:
+     - in case in local docker run: in the `docker-reports` folder.
+     - in case of local run: in the `playwright-report` folder.
+     - in case of ci run: you can download it as archive after ci run (the link is in the logs)
    - The report is uploaded as an artifact, allowing you to view the results after the test run.
-   - The reports are generated in HTML format using the default Playwright reporter and saved in the `playwright-report` folder.
+   - The reports are generated in HTML format using the default Playwright reporter.
 
 # Part 1 – Exploratory Analysis & Functional Prioritisation
 
