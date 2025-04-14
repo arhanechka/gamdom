@@ -7,7 +7,7 @@ export default defineConfig({
   timeout: process.env.CI ? 20000 : 10000,
   workers: process.env.CI ? 4 : 1,
   retries: 2,
-  reporter: [['list'], ['html', { outputFolder: 'playwright-report', open: 'never' }]],
+  reporter: [['list'], ['html', { outputFolder: 'reports/playwright-report', open: 'never' }]],
   use: {
     baseURL: process.env.BASE_URL,
     screenshot: 'only-on-failure',

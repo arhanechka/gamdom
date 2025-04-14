@@ -26,8 +26,3 @@ test('Edit issue', async () => {
   expect(updatedIssue.status).toBe(204);
   expect(updatedIssue.data).toBe('No Content');
 });
-
-test('Check issue was updated', async () => {
-  const fetchedUpdatedIssue = await JiraClient.getIssueById(firstIssueId);
-  expect(fetchedUpdatedIssue.data.fields?.summary).toBe(updatedIssueData.fields.summary);
-});

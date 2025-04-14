@@ -13,9 +13,9 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "lint": "eslint . --ext .ts,.tsx,.js",
-    "docker:test": "docker build --build-arg TEST_CMD='npm run test' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/docker-reports:/app/playwright-report pw-tests",
-    "docker:test:api": "docker build --build-arg TEST_CMD='npm run test:api' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/docker-reports:/app/playwright-report pw-tests",
-    "docker:test:ui": "docker build --build-arg TEST_CMD='npm run test:ui' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/docker-reports:/app/playwright-report pw-tests"
+    "docker:test": "docker build --build-arg TEST_CMD='npm run test' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/reports/docker-reports:/app/reports/playwright-report pw-tests",
+    "docker:test:api": "docker build --build-arg TEST_CMD='npm run test:api' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/reports/docker-reports:/app/reports/playwright-report pw-tests",
+    "docker:test:ui": "docker build --build-arg TEST_CMD='npm run test:ui' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/reports/docker-reports:/app/reports/playwright-report pw-tests"
   },
   "author": "Hanna Arkhipchuk",
   "license": "Gamdom",
