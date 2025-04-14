@@ -38,13 +38,13 @@ jobs:
             -e TEST_PASSWORD=$TEST_PASSWORD \
             -e JIRA_PROJECT_KEY=$JIRA_PROJECT_KEY \
             -e JIRA_TOKEN=$JIRA_TOKEN \
-            -v ${{ github.workspace }}/docker-reports:/app/playwright-report \
+            -v ${{ github.workspace }}/reports:/app/reports/playwright-report \
             pw-tests:latest
 
       - name: Zip Playwright HTML report
         if: always()
         run: |
-          cd reports/docker-reports
+          cd reports
           zip -r ../playwright-report.zip .
 
       - name: Upload Playwright HTML report
