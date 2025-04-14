@@ -21,7 +21,7 @@ if (!baseURL || !authToken) {
 const api = axios.create({
   baseURL,
   headers: {
-    Authorization: authToken,
+    Authorization: `Basic ${authToken}`,
     'Content-Type': 'application/json',
     'X-Atlassian-Token': 'no-check',
   },
