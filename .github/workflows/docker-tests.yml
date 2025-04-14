@@ -12,6 +12,8 @@ jobs:
     env:
       TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
       TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+      JIRA_PROJECT_KEY: ${{ secrets.JIRA_PROJECT_KEY }}
+      JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -34,6 +36,8 @@ jobs:
             -e CI=true \
             -e TEST_USERNAME=$TEST_USERNAME \
             -e TEST_PASSWORD=$TEST_PASSWORD \
+            -e JIRA_PROJECT_KEY=$JIRA_PROJECT_KEY \
+            -e JIRA_TOKEN=$JIRA_TOKEN \
             -v ${{ github.workspace }}/docker-reports:/app/playwright-report \
             pw-tests
 

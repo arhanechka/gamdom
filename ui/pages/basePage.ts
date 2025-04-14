@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test';
-import { WAIT_TIMEOUT } from '@utils/constants';
+import { WAIT_TIMEOUT } from 'ui/utils/constants';
 import debugLib from 'debug';
 
 const log = debugLib('app:base-page');

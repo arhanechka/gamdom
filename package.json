@@ -1,22 +1,24 @@
 {
   "name": "playwright-e2e-framework",
   "version": "1.0.0",
-  "description": "Modular and maintainable Playwright UI automation framework",
+  "description": "Modular and maintainable Playwright UI and API automation framework",
   "main": "index.js",
   "scripts": {
     "test": "DEBUG=app:* npx playwright test",
-    "test:headed": "npx playwright test --headed",
+    "test:ui": "DEBUG=app:* npx playwright test --project=auth --project=authenticated",
+    "test:api": "DEBUG=jira:* npx playwright test --project=api",
     "test:report": "npx playwright show-report",
     "test:debug": "DEBUG=app:*  PWDEBUG=1 npx playwright test --debug --workers=1",
-    "test:smoke": "npx playwright test --grep @smoke",
     "clean": "rm -rf playwright-report test-results",
     "format": "prettier --write .",
     "prepare": "husky install",
     "lint": "eslint . --ext .ts,.tsx,.js",
-    "docker:test": "docker build -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/docker-reports:/app/playwright-report pw-tests"
+    "docker:test": "docker build --build-arg TEST_CMD='npm run test' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/docker-reports:/app/playwright-report pw-tests",
+    "docker:test:api": "docker build --build-arg TEST_CMD='npm run test:api' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/docker-reports:/app/playwright-report pw-tests",
+    "docker:test:ui": "docker build --build-arg TEST_CMD='npm run test:ui' -t pw-tests . && docker run --rm -e CI=true -v $(pwd)/docker-reports:/app/playwright-report pw-tests"
   },
-  "author": "Your Name",
-  "license": "MIT",
+  "author": "Hanna Arkhipchuk",
+  "license": "Gamdom",
   "devDependencies": {
     "@playwright/test": "^1.51.1",
     "@types/debug": "^4.1.12",
@@ -49,5 +51,8 @@
     "**/*.{json,md,yml}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "axios": "^1.8.4"
   }
 }

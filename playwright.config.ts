@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 
 export default defineConfig({
-  timeout: 60000,
+  timeout: process.env.CI ? 20000 : 10000,
   workers: process.env.CI ? 4 : 1,
   retries: 2,
   reporter: [['list'], ['html', { outputFolder: 'playwright-report', open: 'never' }]],
@@ -15,26 +15,22 @@ export default defineConfig({
     launchOptions: {
       slowMo: 500,
     },
+    headless: process.env.CI ? true : false,
   },
-  globalSetup: require.resolve('./global-setup.ts'),
   projects: [
     {
-      name: 'setup',
-      testMatch: /global-setup\.ts/,
-    },
-    {
       name: 'auth',
-      testMatch: '**/auth/**',
-      use: {
-        storageState: undefined,
-      },
+      testMatch: 'ui/auth/**/*.spec.ts',
     },
     {
       name: 'authenticated',
-      testMatch: '**/!(auth|global-setup).spec.ts',
-      dependencies: ['setup'],
+      testMatch: 'ui/**/*.spec.ts',
+    },
+    {
+      name: 'api',
+      testMatch: 'api/**/*.spec.ts',
       use: {
-        storageState: 'playwright/.auth/user.json',
+        baseURL: 'https://autodemos.atlassian.net',
       },
     },
   ],

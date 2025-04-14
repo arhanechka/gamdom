@@ -11,11 +11,11 @@
     "types": ["node", "playwright"],
     "baseUrl": ".",
     "paths": {
-      "@config/*": ["src/config/*"],
-      "@utils/*": ["src/utils/*"],
-      "@pages/*": ["src/pages/*"],
-      "@tests/*": ["tests/*"]
+      "@config/*": ["ui/utils/config/*"],
+      "@utils/*": ["shared/utils/*"],
+      "@pages/*": ["ui/pages/*"],
+      "@api-client/*": ["api/api-client/*"]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "playwright.config.ts", "global-setup.ts"]
+  "include": ["playwright.config.ts", "api/**/**.ts", "ui/**/**.ts"]
 }

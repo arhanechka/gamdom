@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { AuthPage } from '../../src/pages/auth.page';
-import { MainPage } from '../../src/pages/main.page';
+import { AuthPage } from '@pages/auth.page';
+import { MainPage } from '@pages/main.page';
 
 /**
  * Authentication Flow Tests

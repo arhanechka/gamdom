@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures';
-import { CrashPage } from '../../src/pages/games/crash.page';
-import { getGameConfig } from '../../src/config/environments';
-import { MainPage } from '../../src/pages/main.page';
+import { CrashPage } from '@pages/games/crash.page';
+import { getGameConfig } from '@config/environments';
+import { MainPage } from '@pages/main.page';
 
 test.describe('Crash Game Betting', () => {
   test('Place minimum bet and verify acceptance @game', async ({ page, myFixture }) => {

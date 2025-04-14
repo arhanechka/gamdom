@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures';
-import { MainPage } from '../../src/pages/main.page';
-import { WalletPopup } from '../../src/pages/wallet.popup';
+import { MainPage } from '@pages/main.page';
+import { WalletPopup } from '@pages/wallet.popup';
 
 test('Wallet popup appears after clicking wallet button', async ({ page, myFixture }) => {
   const mainPage = new MainPage(page);

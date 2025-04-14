@@ -1,5 +1,5 @@
 import { Page, Locator } from '@playwright/test';
-import { getGameConfig } from '@config/environments';
+import { getGameConfig } from 'ui/utils/config/environments';
 import { BasePage } from '@pages/basePage';
 import debugLib from 'debug';
 
@@ -9,7 +9,6 @@ const log = debugLib('app:crash-page');
  * CrashPage handles all interactions with the Crash game UI.
  */
 export class CrashPage extends BasePage {
-  // Типизация объекта SELECTORS
   protected readonly SELECTORS: Record<string, string> = {
     BET_INPUT: 'input[data-testid="Input"]',
     PLACE_BET_BUTTON: '[data-testid="crashPlaceBetButton"]',
@@ -58,7 +57,6 @@ export class CrashPage extends BasePage {
     if (amount < minBet || amount > maxBet) {
       throw new Error(`Bet amount ${amount} is outside allowed range (${minBet}-${maxBet})`);
     }
-
     await this.waitForVisible(this.betInput);
     await this.click(this.betInput);
     await this.type(this.betInput, amount.toString());
