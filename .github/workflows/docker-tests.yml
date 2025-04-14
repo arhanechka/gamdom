@@ -28,7 +28,7 @@ jobs:
         run: mkdir -p docker-reports
 
       - name: Build Docker image
-        run: docker build -t pw-tests .
+        run: docker build --build-arg TEST_CMD='npm run test' -t pw-tests .
 
       - name: Run Playwright tests in Docker
         run: |

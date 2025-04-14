@@ -1,6 +1,7 @@
 # Playwright E2E Testing Framework
 
 This project is an **End-to-End (E2E)** testing framework built using **TypeScript** and **Playwright**.
+**The part 1** (Exploratory Analysis & Functional Prioritisation) is placed on the end on this readme.
 The project is divided into two parts – API and UI, with their respective logic and tests located in separate directories at the root of the project (/api, /ui).
 Shared logic, project configuration files, and reports (both local and Docker-based) are also located at the root level.
 
@@ -16,14 +17,14 @@ Shared logic, project configuration files, and reports (both local and Docker-ba
 
 ## API tests (Jira CRUD)
 
-### 🧪 Tests Implemented:
+### Tests Implemented:
 
 - **Create Issue** – Verifies successful creation of a Jira issue via API.
 - **Read Issue** – Checks retrieval of an issue by its ID.
 - **Update Issue** – Validates updating an existing issue.
 - **Delete Issue** – Confirms deletion of an issue and ensures it's no longer accessible.
 
-### 🛠️ Technologies Used:
+### Technologies Used:
 
 - **TypeScript** – For writing type-safe test logic.
 - **Playwright Test** – As the test runner and test framework.
@@ -109,3 +110,52 @@ Automated test execution can be done using **GitHub Actions**. The tests are run
    - The test results are stored in the `docker-reports` folder.
    - The report is uploaded as an artifact, allowing you to view the results after the test run.
    - The reports are generated in HTML format using the default Playwright reporter and saved in the `playwright-report` folder.
+
+# Part 1 – Exploratory Analysis & Functional Prioritisation
+
+**Platform Tested:** `qa-test-playground.teamgamdom.com` (iGaming)
+
+## **Critical Functional Areas Identified**
+
+### 1. **User Authentication & Account Security**
+
+- **Justification:**
+  - Prevents unauthorized access, fraud, and ensures compliance.
+  - Breaches could lead to financial losses, reputational damage, and regulatory penalties.
+- **Risk:** High (security vulnerabilities, account takeovers).
+- **Revenue Impact:** Direct (loss of player trust = reduced deposits/play).
+- **UX:** Seamless login (SSO, 2FA) balances security and convenience.
+
+### 2. **Payment Processing (Deposits/Withdrawals)**
+
+- **Justification:**
+  - Revenue-driving function; failures cause immediate financial disruption.
+  - Users expect instant, error-free transactions.
+- **Risk:** High (failed transactions, delays, or fraud harm credibility).
+- **Revenue Impact:** Critical (blocked deposits = lost bets; withdrawal issues = churn).
+- **UX:** Must support multiple methods with clear status tracking.
+
+### 3. **Game Integrity & Fairness (RNG Certification)**
+
+- **Justification:**
+  - Ensures trust in game outcomes.
+  - Manipulation risks legal action and player attrition.
+- **Risk:** Regulatory (failed audits) and reputational (player distrust).
+- **Revenue Impact:** Long-term (unfair games = player migration).
+- **UX:** Transparency (e.g., provably fair mechanisms) boosts engagement.
+
+### 4. **Responsive UI & Cross-Device Compatibility**
+
+- **Justification:**
+  - iGaming relies on mobile-first users.
+  - Bugs (e.g., misaligned buttons, lag) deter play.
+- **Risk:** Medium-High (frustration = abandoned sessions).
+- **Revenue Impact:** Direct (poor mobile UX = lower session times/bets).
+- **UX:** Consistent performance across devices retains players.
+
+## **Summary**
+
+Prioritising these areas mitigates high business risks, safeguards revenue streams, and ensures a seamless UX. Further testing should focus on:
+
+- **End-to-end payment flows**
+- **Security penetration tests**
