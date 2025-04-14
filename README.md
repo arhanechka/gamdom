@@ -115,6 +115,10 @@ Automated test execution can be done using **GitHub Actions**. The tests are run
      - in case in local docker run: in the `reports/docker-reports` folder.
      - in case of local run: in the `reports/playwright-report` folder.
      - in case of ci run: you can download it as archive after ci run (the link is in the logs)
+     - there is a possibility to generate allure report and open it in the browser by command
+     ```bash
+         npm run report:allure
+     ```
    - The report is uploaded as an artifact, allowing you to view the results after the test run.
    - The reports are generated in HTML format using the default Playwright reporter.
 
