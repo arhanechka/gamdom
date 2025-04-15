@@ -2,6 +2,7 @@ import { Page, Locator } from '@playwright/test';
 import { getGameConfig } from 'ui/utils/config/environments';
 import { BasePage } from '@pages/basePage';
 import debugLib from 'debug';
+import { Selectors } from 'ui/utils/types';
 
 const log = debugLib('app:crash-page');
 
@@ -9,12 +10,15 @@ const log = debugLib('app:crash-page');
  * CrashPage handles all interactions with the Crash game UI.
  */
 export class CrashPage extends BasePage {
-  protected readonly SELECTORS: Record<string, string> = {
-    BET_INPUT: 'input[data-testid="Input"]',
-    PLACE_BET_BUTTON: '[data-testid="crashPlaceBetButton"]',
-    CURRENT_BET_BOX: '[data-testid="crashCurrentBetBoxesContainer"]',
-    BET_STATUS: 'table[aria-label="live bets table"]',
-    MULTIPLIER_DISPLAY: '[data-testid="crash-multiplier"]',
+  protected readonly SELECTORS: Selectors = {
+    BET_INPUT: { name: 'Bet input', locator: 'input[data-testid="Input"]' },
+    PLACE_BET_BUTTON: { name: 'Place Bet button', locator: '[data-testid="crashPlaceBetButton"]' },
+    CURRENT_BET_BOX: {
+      name: 'Current Bet Box',
+      locator: '[data-testid="crashCurrentBetBoxesContainer"]',
+    },
+    BET_STATUS: { name: 'Bet Status Table', locator: 'table[aria-label="live bets table"]' },
+    MULTIPLIER_DISPLAY: { name: 'Multiplier Display', locator: '[data-testid="crash-multiplier"]' },
   };
 
   constructor(page: Page) {
@@ -24,23 +28,23 @@ export class CrashPage extends BasePage {
   // ---------- Locators ----------
 
   private get betInput(): Locator {
-    return this.page.locator(this.SELECTORS.BET_INPUT);
+    return this.page.locator(this.SELECTORS.BET_INPUT.locator);
   }
 
   private get placeBetButton(): Locator {
-    return this.page.locator(this.SELECTORS.PLACE_BET_BUTTON);
+    return this.page.locator(this.SELECTORS.PLACE_BET_BUTTON.locator);
   }
 
   private get currentBetBox(): Locator {
-    return this.page.locator(this.SELECTORS.CURRENT_BET_BOX);
+    return this.page.locator(this.SELECTORS.CURRENT_BET_BOX.locator);
   }
 
   private get betStatus(): Locator {
-    return this.page.locator(this.SELECTORS.BET_STATUS);
+    return this.page.locator(this.SELECTORS.BET_STATUS.locator);
   }
 
   private get multiplierDisplay(): Locator {
-    return this.page.locator(this.SELECTORS.MULTIPLIER_DISPLAY);
+    return this.page.locator(this.SELECTORS.MULTIPLIER_DISPLAY.locator);
   }
 
   // ---------- Actions ----------
@@ -57,10 +61,10 @@ export class CrashPage extends BasePage {
     if (amount < minBet || amount > maxBet) {
       throw new Error(`Bet amount ${amount} is outside allowed range (${minBet}-${maxBet})`);
     }
-    await this.waitForVisible(this.betInput);
-    await this.click(this.betInput);
-    await this.type(this.betInput, amount.toString());
-    await this.click(this.placeBetButton);
+    await this.waitForVisible(this.SELECTORS.BET_INPUT);
+    await this.click(this.SELECTORS.BET_INPUT);
+    await this.type(this.SELECTORS.BET_INPUT, amount.toString());
+    await this.click(this.SELECTORS.PLACE_BET_BUTTON);
 
     log('Bet placed successfully');
   }
@@ -88,7 +92,7 @@ export class CrashPage extends BasePage {
     log('Waiting for round to end...');
 
     try {
-      await this.waitForHidden(this.currentBetBox, timeout);
+      await this.waitForHidden(this.SELECTORS.CURRENT_BET_BOX, timeout);
       log('Current bet box disappeared');
     } catch {
       log('Timeout while waiting for current bet box to disappear');
@@ -99,7 +103,7 @@ export class CrashPage extends BasePage {
 
     try {
       await this.betStatus.scrollIntoViewIfNeeded();
-      await this.waitForVisible(this.betStatus, remaining);
+      await this.waitForVisible(this.SELECTORS.BET_STATUS, remaining);
       const rowCount = await this.getBetStatusRowCount();
       log(`Bet status visible, row count: ${rowCount}`);
       return true;
@@ -125,7 +129,7 @@ export class CrashPage extends BasePage {
    * @returns A promise that resolves to the current multiplier as a number.
    */
   async getCurrentMultiplier(): Promise<number> {
-    const text = await this.getText(this.multiplierDisplay);
+    const text = await this.getText(this.SELECTORS.MULTIPLIER_DISPLAY);
     const cleaned = text.replace('x', '').trim();
     const multiplier = parseFloat(cleaned) || 0;
     log(`Current multiplier: ${multiplier}`);

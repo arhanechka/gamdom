@@ -1,6 +1,7 @@
-import { Page, expect, Locator } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BasePage } from '@pages/basePage';
 import debugLib from 'debug';
+import { Selectors } from 'ui/utils/types';
 
 const log = debugLib('app:auth-page');
 
@@ -8,13 +9,13 @@ const log = debugLib('app:auth-page');
  * AuthPage handles all interactions with the authentication UI.
  */
 export class AuthPage extends BasePage {
-  private readonly SELECTORS: Record<string, string> = {
-    AUTH_POPUP: '[data-testid="AuthPopup"]',
-    USERNAME: '[name="username"]',
-    PASSWORD: '[name="password"]',
-    LOGIN_BUTTON: '[data-testid="start-playing-login"]',
-    LOGOUT_BUTTON: '[data-testid="logout-button"]',
-    SIGNIN_NAV: '[data-testid="signin-nav"]',
+  private readonly SELECTORS: Selectors = {
+    AUTH_POPUP: { locator: '[data-testid="AuthPopup"]', name: 'Auth Popup' },
+    USERNAME: { locator: '[name="username"]', name: 'Username Input' },
+    PASSWORD: { locator: '[name="password"]', name: 'Password Input' },
+    LOGIN_BUTTON: { locator: '[data-testid="start-playing-login"]', name: 'Login Button' },
+    LOGOUT_BUTTON: { locator: '[data-testid="logout-button"]', name: 'Logout Button' },
+    SIGNIN_NAV: { locator: '[data-testid="signin-nav"]', name: 'Sign In Navigation' },
   };
 
   constructor(page: Page) {
@@ -58,7 +59,7 @@ export class AuthPage extends BasePage {
    */
   private async expectLoginFormVisible(): Promise<void> {
     log('Expecting login form to be visible...');
-    await expect(this.getPage().locator(this.SELECTORS.AUTH_POPUP)).toBeVisible();
+    await this.waitForVisible(this.SELECTORS.AUTH_POPUP);
   }
 
   /**

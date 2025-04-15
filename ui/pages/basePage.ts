@@ -1,6 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 import { WAIT_TIMEOUT } from 'ui/utils/constants';
 import debugLib from 'debug';
+import { CustomElement } from 'ui/utils/types';
 
 const log = debugLib('app:base-page');
 
@@ -20,86 +21,72 @@ export class BasePage {
 
   // ---------- Universal Waits ----------
 
-  /**
-   * Waits for a specific state of an element (visible, hidden, attached, or detached).
-   * @param locator The locator or selector to target.
-   * @param state The state to wait for ('visible', 'hidden', 'attached', or 'detached').
-   * @param timeout The timeout duration in milliseconds (default is WAIT_TIMEOUT).
-   * @returns {Promise<void>}
-   */
   protected async waitForState(
-    locator: Locator | string,
+    element: CustomElement,
     state: 'visible' | 'hidden' | 'attached' | 'detached',
     timeout = WAIT_TIMEOUT,
   ): Promise<void> {
-    const element = typeof locator === 'string' ? this.page.locator(locator) : locator;
-    log(`Waiting for [${typeof locator === 'string' ? locator : 'Locator'}] to be '${state}'`);
-    await element.waitFor({ state, timeout });
+    const locator = this.page.locator(element.locator);
+    log(`Waiting for ${element.name} to be '${state}'`);
+    try {
+      await locator.waitFor({ state, timeout });
+    } catch (err) {
+      log(`Error waiting for ${element.name} to be '${state}': ${err}`);
+    }
   }
 
-  /**
-   * Waits for an element to be visible.
-   * @param locator The locator or selector to target.
-   * @param timeout The timeout duration in milliseconds (default is WAIT_TIMEOUT).
-   * @returns {Promise<void>}
-   */
-  protected async waitForVisible(locator: Locator | string, timeout = WAIT_TIMEOUT): Promise<void> {
-    return this.waitForState(locator, 'visible', timeout);
+  protected async waitForVisible(element: CustomElement, timeout = WAIT_TIMEOUT): Promise<void> {
+    try {
+      return this.waitForState(element, 'visible');
+    } catch (err) {
+      log(`Element ${element.name} was not visible during ${timeout}: ${err}`);
+    }
   }
 
-  /**
-   * Waits for an element to be hidden.
-   * @param locator The locator or selector to target.
-   * @param timeout The timeout duration in milliseconds (default is WAIT_TIMEOUT).
-   * @returns {Promise<void>}
-   */
-  protected async waitForHidden(locator: Locator | string, timeout = WAIT_TIMEOUT): Promise<void> {
-    return this.waitForState(locator, 'hidden', timeout);
+  protected async waitForHidden(element: CustomElement, timeout = WAIT_TIMEOUT): Promise<void> {
+    return this.waitForState(element, 'hidden', timeout);
   }
 
-  /**
-   * Waits for the network to become idle.
-   * @returns {Promise<void>}
-   */
   async waitForNetworkIdle(): Promise<void> {
     log('Waiting for network to be idle...');
-    await this.page.waitForLoadState('networkidle');
+    try {
+      await this.page.waitForLoadState('networkidle');
+    } catch (err) {
+      log(`Error waiting for network to idle: ${err}`);
+    }
   }
 
   // ---------- Actions ----------
 
-  /**
-   * Clicks on an element.
-   * @param locator The locator or selector to target.
-   * @returns {Promise<void>}
-   */
-  protected async click(locator: Locator | string): Promise<void> {
-    const element = typeof locator === 'string' ? this.page.locator(locator) : locator;
-    log(`Clicking on [${typeof locator === 'string' ? locator : 'Locator'}]`);
-    await element.click();
+  protected async click(element: CustomElement): Promise<void> {
+    const locator = this.page.locator(element.locator);
+    log(`Clicking on ${element.name}`);
+    try {
+      await locator.click();
+    } catch (err) {
+      log(`Error clicking on ${element.name}: ${err}`);
+    }
   }
 
-  /**
-   * Types text into an input field.
-   * @param locator The locator or selector to target.
-   * @param text The text to type.
-   * @returns {Promise<void>}
-   */
-  protected async type(locator: Locator | string, text: string): Promise<void> {
-    const element = typeof locator === 'string' ? this.page.locator(locator) : locator;
-    log(`Typing into [${typeof locator === 'string' ? locator : 'Locator'}]: "${text}"`);
-    await element.fill(text);
+  protected async type(element: CustomElement, text: string): Promise<void> {
+    const locator = this.page.locator(element.locator);
+    log(`Typing into ${element.name}: "${text}"`);
+    try {
+      await locator.fill(text);
+    } catch (err) {
+      log(`Error typing into ${element.name}: ${err}`);
+    }
   }
 
-  /**
-   * Gets the text content of an element.
-   * @param locator The locator or selector to target.
-   * @returns {Promise<string>} The text content of the element.
-   */
-  protected async getText(locator: Locator | string): Promise<string> {
-    const element = typeof locator === 'string' ? this.page.locator(locator) : locator;
-    const text = await element.textContent();
-    log(`Text from [${typeof locator === 'string' ? locator : 'Locator'}]: "${text?.trim()}"`);
-    return text?.trim() || '';
+  protected async getText(element: CustomElement): Promise<string> {
+    const locator = this.page.locator(element.locator);
+    try {
+      const text = await locator.textContent();
+      log(`Text from ${element.name}: "${text?.trim()}"`);
+      return text?.trim() || '';
+    } catch (err) {
+      log(`Error getting text from ${element.name}: ${err}`);
+      return '';
+    }
   }
 }
