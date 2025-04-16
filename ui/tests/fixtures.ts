@@ -38,8 +38,6 @@ export const test = base.extend<CustomFixtures>({
  * Runs before each test. Initializes login flow for non-auth related tests.
  */
 test.beforeEach(async ({ page, authPage, mainPage }, testInfo) => {
-  await page.goto('/');
-
   if (testInfo.project.name === 'auth') return;
 
   await authPage.navigateToLogin();

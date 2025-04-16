@@ -23,7 +23,6 @@ module.exports = [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       'no-console': 'warn',
       'prefer-const': 'warn',
-      'no-console': 'off',
     },
   },
 ];

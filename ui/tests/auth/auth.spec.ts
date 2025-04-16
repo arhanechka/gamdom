@@ -7,6 +7,7 @@ import { test, expect } from '../fixtures';
 test.describe('Authentication Flow', () => {
   test('Valid credentials redirect to dashboard @auth', async ({ authPage, mainPage }) => {
     await test.step('Open login form', async () => {
+      await authPage.navigateToLogin();
       await authPage.openLoginForm();
     });
 

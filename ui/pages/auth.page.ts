@@ -29,12 +29,7 @@ export class AuthPage extends BasePage {
    * @returns A promise that resolves to a boolean indicating if the login page is visible.
    */
   async isLoginPageVisible(): Promise<boolean> {
-    try {
-      await this.waitForVisible(this.SELECTORS.SIGNIN_NAV);
-      return true;
-    } catch {
-      return false;
-    }
+    return await this.isElementVisible(this.SELECTORS.SIGNIN_NAV);
   }
 
   /**
