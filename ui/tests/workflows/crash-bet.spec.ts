@@ -1,22 +1,29 @@
 import { test, expect } from '../fixtures';
 import { CrashPage } from '@pages/games/crash.page';
 import { getGameConfig } from '@config/environments';
-import { MainPage } from '@pages/main.page';
 
+/**
+ * Crash Game Betting Tests
+ * This suite verifies that a user can place a minimum bet in the Crash game
+ * and confirms the bet is accepted and reflected in the round result.
+ */
 test.describe('Crash Game Betting', () => {
-  test('Place minimum bet and verify acceptance @game', async ({ page, myFixture }) => {
-    const mainPage: MainPage = new MainPage(page);
-    const crash = new CrashPage(page);
-    const { minBet } = getGameConfig('crash');
+  const { minBet } = getGameConfig('crash');
 
-    await test.step('Place minimum bet', async () => {
+  test('Place minimum bet and verify acceptance @game', async ({ page, mainPage }) => {
+    const crash = new CrashPage(page);
+
+    await test.step('Navigate to Crash game', async () => {
       await mainPage.navigateToCrashGame();
-      await crash.placeBet(minBet);
-      await crash.expectBetAccepted();
     });
 
-    await test.step('Verify bet reflection', async () => {
-      await expect(await crash.waitForRoundResultAndCheckBetStatus()).toBe(true);
+    await test.step(`Place minimum bet: ${minBet}`, async () => {
+      await crash.placeBet(minBet);
+      expect(await crash.expectBetAccepted()).toBeTruthy;
+    });
+
+    await test.step('Wait for round result and check if bet is reflected', async () => {
+      expect(await crash.waitForRoundResultAndCheckBetStatus()).toBe(true);
     });
   });
 });

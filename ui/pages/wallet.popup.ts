@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { BasePage } from '@pages/basePage';
 import debugLib from 'debug';
 import { Selectors } from 'ui/utils/types';
@@ -28,18 +28,9 @@ export class WalletPopup extends BasePage {
    * Waits for the wallet popup to be visible.
    * @param timeout Timeout in milliseconds (default: 5000)
    */
-  async waitModalForVisible(timeout = 5000): Promise<void> {
+  async isWalletModalVisible(timeout = 5000): Promise<boolean> {
     log('Waiting for wallet modal to be visible...');
-    await super.waitForVisible(this.SELECTORS.MODAL_CONTAINER, timeout);
-    log('Wallet modal is visible.');
-  }
-
-  /**
-   * Checks if the popup is currently visible.
-   */
-  async isVisible(): Promise<boolean> {
-    log('Checking if the wallet modal is visible...');
-    return this.getPage().locator(this.SELECTORS.MODAL_CONTAINER.locator).isVisible();
+    return await this.isElementVisible(this.SELECTORS.MODAL_CONTAINER, timeout);
   }
 
   /**
@@ -48,7 +39,7 @@ export class WalletPopup extends BasePage {
   async clickWalletButton(): Promise<void> {
     log('Clicking on wallet button...');
     await this.waitForVisible(this.SELECTORS.WALLET_BUTTON);
-    await this.getPage().locator(this.SELECTORS.WALLET_BUTTON.locator).click();
+    await this.click(this.SELECTORS.WALLET_BUTTON);
     log('Wallet button clicked.');
   }
 
@@ -58,19 +49,17 @@ export class WalletPopup extends BasePage {
   async clickVaultButton(): Promise<void> {
     log('Clicking on vault button...');
     await this.waitForVisible(this.SELECTORS.VAULT_BUTTON);
-    await this.getPage().locator(this.SELECTORS.VAULT_BUTTON.locator).click();
+    await this.click(this.SELECTORS.VAULT_BUTTON);
     log('Vault button clicked.');
   }
 
   /**
    * Verifies that the header title is "Vault".
    */
-  async expectHeaderTitleIsVault(): Promise<void> {
+  async getVaultHeaderTitle(): Promise<string> {
     log('Checking if header title is "Vault"...');
     await this.waitForVisible(this.SELECTORS.HEADER_TITLE);
-    const headerTitle = this.getPage().locator(this.SELECTORS.HEADER_TITLE.locator);
-    await expect(headerTitle).toHaveText('Vault');
-    log('Header title is "Vault" and visible.');
+    return await this.getText(this.SELECTORS.HEADER_TITLE);
   }
 
   /**
@@ -80,9 +69,9 @@ export class WalletPopup extends BasePage {
     log('Depositing $10 into Vault...');
     const input = this.getPage().locator(this.SELECTORS.INPUT.locator);
     await this.waitForVisible(this.SELECTORS.DEPOSIT_BUTTON);
-    await input.first().fill('10');
+    await this.type(this.SELECTORS.INPUT, '10');
     await this.waitForVisible(this.SELECTORS.DEPOSIT_BUTTON);
-    await this.getPage().locator(this.SELECTORS.DEPOSIT_BUTTON.locator).click();
+    await this.click(this.SELECTORS.DEPOSIT_BUTTON);
     log('$10 deposited to Vault.');
   }
 
@@ -92,16 +81,15 @@ export class WalletPopup extends BasePage {
   async clickWithdrawButton(): Promise<void> {
     log('Clicking on Withdraw button...');
     await this.waitForVisible(this.SELECTORS.WITHDRAW_BUTTON);
-    await this.getPage().locator(this.SELECTORS.WITHDRAW_BUTTON.locator).click();
+    await this.click(this.SELECTORS.WITHDRAW_BUTTON);
     log('Withdraw button clicked.');
   }
 
   /**
    * Verifies that the vault payment methods container is visible.
    */
-  async expectVaultPaymentMethodsVisible(): Promise<void> {
+  async expectVaultPaymentMethodsVisible(): Promise<boolean> {
     log('Verifying payment methods container is visible...');
-    await this.waitForVisible(this.SELECTORS.PAYMENT_METHOD_CONTAINER);
-    log('Vault payment method container is visible.');
+    return await this.isElementVisible(this.SELECTORS.PAYMENT_METHOD_CONTAINER);
   }
 }

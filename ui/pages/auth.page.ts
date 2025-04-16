@@ -51,14 +51,6 @@ export class AuthPage extends BasePage {
   async openLoginForm(): Promise<void> {
     log('Opening login form...');
     await this.click(this.SELECTORS.SIGNIN_NAV);
-    await this.expectLoginFormVisible();
-  }
-
-  /**
-   * Verifies that the login form is visible.
-   */
-  private async expectLoginFormVisible(): Promise<void> {
-    log('Expecting login form to be visible...');
     await this.waitForVisible(this.SELECTORS.AUTH_POPUP);
   }
 
@@ -72,14 +64,5 @@ export class AuthPage extends BasePage {
     await this.type(this.SELECTORS.USERNAME, username);
     await this.type(this.SELECTORS.PASSWORD, password);
     await this.click(this.SELECTORS.LOGIN_BUTTON);
-  }
-
-  /**
-   * Logs out the user.
-   */
-  async logout(): Promise<void> {
-    log('Logging out...');
-    await this.click(this.SELECTORS.LOGOUT_BUTTON);
-    await expect(this.getPage()).toHaveURL(/login/);
   }
 }

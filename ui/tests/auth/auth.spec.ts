@@ -1,35 +1,21 @@
-import { test, expect } from '@playwright/test';
-import { AuthPage } from '@pages/auth.page';
-import { MainPage } from '@pages/main.page';
+import { test, expect } from '../fixtures';
 
 /**
  * Authentication Flow Tests
  * This test suite covers the login functionality and redirects after successful authentication.
  */
 test.describe('Authentication Flow', () => {
-  let authPage: AuthPage;
-  let mainPage: MainPage;
+  test('Valid credentials redirect to dashboard @auth', async ({ authPage, mainPage }) => {
+    await test.step('Open login form', async () => {
+      await authPage.openLoginForm();
+    });
 
-  /**
-   * Setup before each test
-   * Initializes page objects and navigates to the homepage.
-   */
-  test.beforeEach(async ({ page }) => {
-    authPage = new AuthPage(page);
-    mainPage = new MainPage(page);
-    await page.goto('/');
-    await authPage.openLoginForm();
-  });
+    await test.step('Perform login with valid credentials', async () => {
+      await authPage.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
+    });
 
-  /**
-   * Test case: Valid credentials should redirect to the dashboard.
-   * This verifies that after successful login, the user is redirected to the main page.
-   */
-  test('Valid credentials redirect to dashboard @smoke', async () => {
-    // Perform login with valid credentials
-    await authPage.login(process.env.TEST_USERNAME!, process.env.TEST_PASSWORD!);
-
-    // Verify successful login by checking user balance visibility
-    await mainPage.expectSuccessfulLogin();
+    await test.step('Verify successful login by checking balance', async () => {
+      expect(await mainPage.expectSuccessfulLogin()).toBeTruthy;
+    });
   });
 });

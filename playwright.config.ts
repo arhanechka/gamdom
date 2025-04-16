@@ -31,11 +31,12 @@ export default defineConfig({
   projects: [
     {
       name: 'auth',
-      testMatch: 'ui/auth/**/*.spec.ts',
+      testMatch: 'ui/**/auth/**/*.spec.ts',
     },
     {
       name: 'authenticated',
-      testMatch: 'ui/**/*.spec.ts',
+      testMatch: 'ui/**/**/*.spec.ts',
+      testIgnore: 'ui/**/auth/**/*.spec.ts',
     },
     {
       name: 'api',

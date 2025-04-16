@@ -56,6 +56,15 @@ export class BasePage {
     }
   }
 
+  async isElementVisible(element: CustomElement, timeout = WAIT_TIMEOUT): Promise<boolean> {
+    try {
+      await this.waitForVisible(element);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   // ---------- Actions ----------
 
   protected async click(element: CustomElement): Promise<void> {

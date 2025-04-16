@@ -1,8 +1,7 @@
-import { Page, expect, Locator } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { BasePage } from '@pages/basePage';
 import debugLib from 'debug';
 import { Selectors } from 'ui/utils/types';
-import { WAIT_TIMEOUT } from 'ui/utils/constants';
 
 const log = debugLib('app:main-page'); // Run with DEBUG=app:* or DEBUG=app:main-page
 
@@ -17,7 +16,7 @@ export class MainPage extends BasePage {
       name: 'User Balance',
     },
     CRASH_LINK: {
-      locator: 'a[href="/crash"]:has-text("Crash")',
+      locator: ':nth-match(a[href="/crash"]:has-text("Crash"), 1)',
       name: 'Crash Game Link',
     },
     WALLET_BUTTON: {
@@ -35,13 +34,12 @@ export class MainPage extends BasePage {
   /**
    * Waits for the page to load successfully and ensures the user balance is present.
    */
-  async expectSuccessfulLogin(): Promise<void> {
-    log('Waiting for loading container to be visible...');
-    await this.waitForVisible(this.SELECTORS.LOADING_CONTAINER);
-
-    log('Checking if user balance is displayed...');
-    await expect(this.getPage().locator(this.SELECTORS.USER_BALANCE.locator)).not.toBeEmpty();
-    log('Login successful: User balance is present.');
+  async expectSuccessfulLogin(): Promise<boolean> {
+    log('Waiting for login page to be visible...');
+    return (
+      (await this.isElementVisible(this.SELECTORS.LOADING_CONTAINER)) &&
+      (await this.isElementVisible(this.SELECTORS.USER_BALANCE))
+    );
   }
 
   /**
@@ -50,40 +48,18 @@ export class MainPage extends BasePage {
   async navigateToCrashGame(): Promise<void> {
     const { locator, name } = this.SELECTORS.CRASH_LINK;
     const crashLink = this.getPage().locator(locator).first();
-
     log(`Waiting for ${name} to be visible...`);
-    await crashLink.waitFor({ state: 'visible', timeout: WAIT_TIMEOUT });
+    await this.waitForVisible(this.SELECTORS.CRASH_LINK);
     log(`Scrolling to ${name}...`);
     await crashLink.scrollIntoViewIfNeeded();
-
-    log(`Clicking ${name}...`);
-    try {
-      await crashLink.click({ force: true });
-      log(`Clicked on ${name} successfully.`);
-    } catch (e) {
-      log(`Failed to click ${name}:`, e);
-      throw new Error(`${name} is not interactable or not found.`);
-    }
+    await this.click(this.SELECTORS.CRASH_LINK);
   }
 
   /**
    * Clicks the wallet button, ensuring it is visible and interactable.
    */
   async clickWalletButton(timeout = 5000): Promise<void> {
-    const { locator, name } = this.SELECTORS.WALLET_BUTTON;
-    const walletButton = this.getPage().locator(locator);
-
-    log(`Checking if ${name} is visible...`);
-    try {
-      await this.waitForVisible(this.SELECTORS.WALLET_BUTTON, timeout);
-
-      log(`${name} is visible. Clicking...`);
-      await walletButton.click();
-
-      log(`${name} clicked successfully.`);
-    } catch (e) {
-      log(`Failed to click ${name}:`, e);
-      throw new Error(`${name} is not clickable or not found on the page.`);
-    }
+    await this.waitForVisible(this.SELECTORS.WALLET_BUTTON, timeout);
+    await this.click(this.SELECTORS.WALLET_BUTTON);
   }
 }

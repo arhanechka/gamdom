@@ -90,7 +90,6 @@ export class CrashPage extends BasePage {
   async waitForRoundResultAndCheckBetStatus(timeout = 10000): Promise<boolean> {
     const start = Date.now();
     log('Waiting for round to end...');
-
     try {
       await this.waitForHidden(this.SELECTORS.CURRENT_BET_BOX, timeout);
       log('Current bet box disappeared');
